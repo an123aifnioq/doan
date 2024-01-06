@@ -1,0 +1,125 @@
+﻿@model IPagedList<Account>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Quản lý Tài khoản</h1>
+                    <p>
+                        <a class="btn btn-success" href="@Url.Action("Create", "Accounts")">Thêm tài khoản</a>
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Quản lý tài khoản</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-2">
+                    <select id="roleFilter" class="form-control">
+                        <option value="0">Tất cả</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Khách hàng</option>
+                        <option value="3">Nhân viên</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="col-1 text-center">STT</th>
+                                <th class="col-1 text-center">Ảnh đại diện</th>
+                                <th class="col-1 text-center">Tên tài khoản</th>
+                                <th class="col-1 text-center">Tên đầy đủ</th>
+                                <th class="col-1 text-center">Số điện thoại</th>
+                                <th class="col-1 text-center">Email</th>
+                                <th class="col-1 text-center">Quyền</th>
+                                <th class="col-1 text-center">Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr id="tr_@item.AccountID" data-role="@item.RoleID">
+                                    <th class="text-center">@(i++)</th>
+                                    <td class="text-center">
+                                        <img style="max-width: 30px;height: auto;" src="@item.Image" />
+                                    </td>
+                                    <td class="text-center">@item.UserName</td>
+                                    <td class="text-center">@item.FullName</td>
+                                    <td class="text-center">@item.Phone</td>
+                                    <td class="text-center">@item.Email</td>
+                                    <td class="text-center">@item.Role.RoleName</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-success btn-sm" href="@Url.Action("Edit", "Accounts", new { id = item.AccountID })">Sửa</a> |
+                                        <a class="btn btn-danger btn-sm btn-delete" href="@Url.Action("Delete", "Accounts", new { id = item.AccountID })">Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    @Html.PagedListPager(Model, page => Url.Action("index", new { page = page }), new PagedListRenderOptions()
+                    {
+                    ActiveLiElementClass = "active",
+                    PageClasses = new[]{ "page-link"},
+                    LiElementClasses=new[] { "page-item" },
+                    UlElementClasses = new[] { "pagination", "justify-content-center"},
+                    })
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </section>
+</div>
+@section scripts {
+    <script>
+        // Xử lý sự kiện khi thay đổi lựa chọn vai trò
+        $('#roleFilter').change(function () {
+            var selectedRole = $(this).val();
+            if (selectedRole == 0) {
+                // Hiển thị tất cả
+                $('tr').show();
+            } else {
+                // Ẩn tất cả
+                $('tr').hide();
+                // Hiển thị các hàng có vai trò tương ứng
+                $('tr[data-role=' + selectedRole + ']').show();
+            }
+        });
+    </script>
+}

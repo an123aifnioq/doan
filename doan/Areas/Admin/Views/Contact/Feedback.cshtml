@@ -1,0 +1,25 @@
+﻿@model doan.Models.Contact
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <main id="main" class="main">
+                        <div class="pagetitle">
+                            <h2>Phản hồi tin nhắn</h2>
+                        </div>
+                        <form asp-action="Feedback" method="post">
+                            <div class="form-group">
+                                <label asp-for="AdminResponse">Nhập nội dung:</label>
+                                <textarea asp-for="AdminResponse" class="form-control"></textarea>
+                                <span asp-validation-for="AdminResponse" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Gửi</button>
+                        </form>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

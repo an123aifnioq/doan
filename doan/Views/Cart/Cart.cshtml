@@ -1,0 +1,114 @@
+﻿@model List<doan.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <span>Giỏ hàng</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Shop Cart Section Begin -->
+<section class="shop-cart spad">
+    <div class="container">
+        @if (Model.Count > 0)
+            {
+                int total = 0;
+                int i = 1;
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Tên sản phẩm</th>
+                                    <th class="text-center">Ảnh sản phẩm</th>
+                                    <th class="text-center">Giá</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-center">Tổng giá</th>
+                                    <th class="text-center">Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    int thanhtien = item.quantity * (int)item.product.Price;
+                                    total += thanhtien;
+                                    <tr>
+                                        <td class="text-center">
+                                                <h6>@item.product.Title</h6>         
+                                        </td>
+                                        <td class="text-center">
+                                            <img style="max-width: 60px;height: auto;" src="@item.product.Image" />
+                                        </td>
+                                        <td class="text-center">@item.product.Price VNĐ</td>
+                                        <td class="text-center">
+                                            <div class="pro-qty">
+                                                <input asp-for="@item.quantity" id="@($"quantity-{item.product.ProductID}")" class="cart-plus-minus-box" type="text">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@thanhtien VNĐ</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info btn-sm" data-productid="@item.product.ProductID">Cập nhật</a> |
+                                            <a class="btn btn-danger btn-sm btn-delete" asp-route="removecart" asp-route-productid="@item.product.ProductID">Xóa</a>
+                                        </td>                                       
+                                    </tr>
+                                }                 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">               
+                <div class="col-lg-4 offset-lg-8">
+                    <div class="cart__total__procced">
+                        <h6>Tổng tiền</h6>
+                        <ul>
+                            <li>Tổng phụ <span>@total VNĐ</span></li>
+                            <li>Tổng cộng <span>@total VNĐ</span></li>
+                        </ul>
+                        <a href="/CheckOut/Checkout" class="primary-btn">Thanh toán</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="alert alert-danger">Giỏ hàng trống! Vui lòng chọn danh mục sản phẩm để mua hàng.</p>
+        }
+    </div>
+</section>
+<!-- Shop Cart Section End -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btn-info").click(function (event) {
+                event.preventDefault();
+                var productid = $(this).attr("data-productid");
+                var quantity = $("#quantity-" + productid).val();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.RouteUrl("updatecart")",
+                    data: {
+                        productid: productid,
+                        quantity: quantity
+                    },
+                    success: function (result) {
+                        window.location.href = "@Url.RouteUrl("cart")";
+                    }
+                });
+            });
+        });
+    </script>
+}

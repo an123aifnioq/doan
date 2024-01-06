@@ -1,0 +1,50 @@
+﻿
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <a href="Profile"> Thông tin cá nhân</a>
+                    <span>Cập nhật thông tin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Login Begin-->
+<div class="card profile-container">
+    <form asp-controller="Account" asp-action="UpdateProfile" method="post">
+        <h2>THÔNG TIN MỚI</h2>
+        <div class="form-group">
+            <label for="fullname"></label>
+            <input type="text" name="fullname" class="form-control" placeholder="Nhập họ tên mới">
+        </div>
+        <div class="form-group">
+            <label for="phone"></label>
+            <input type="text" name="phone" class="form-control" placeholder="Nhập số điện thoại mới">
+        </div>
+        <div class="form-group">
+            <label for="email"></label>
+            <input type="email" name="email" class="form-control" placeholder="Nhập email mới">
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a asp-action="Profile" class="btn btn-secondary">Quay lại</a>
+    </form>               
+</div>
+<!-- Login End-->
+
+<style>
+    .profile-container {
+        max-width: 400px;
+        margin: auto;
+        text-align: center;
+        padding: 20px;
+
+    }  
+    .breadcrumb-option {
+        margin-bottom: 20px; /* Thêm margin-bottom là 20px cho breadcrumb-option */
+    }
+</style>

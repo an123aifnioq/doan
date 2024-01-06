@@ -1,0 +1,81 @@
+﻿@using doan.Utilities;
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <span>Đăng nhập</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Login Begin-->
+<div class="login-container">
+    <div class="login-box">
+        <div class="card">
+            <div class="card-body login-card-body">
+                <h2 class="text-center mb-4">ĐĂNG NHẬP</h2>
+                <form class="needs-validated" asp-controller="Account" asp-action="Login">
+                    <div class="form-group">
+                        <label for="username"></label>
+                        <div class="input-group">
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Tên đăng nhập" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">Hãy nhập tên đăng nhập</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Mật khẩu" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">Hãy nhập mật khẩu</div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-danger">
+                        @Functions._Message
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="remember">
+                        <label class="form-check-label" for="remember">Nhớ tài khoản</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+                </form>
+                <div class="mt-3">
+                    <p class="mb-1">
+                        <a href="forgot-password.html">Bạn bị quên mật khẩu?</a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="/Account/Register" class="text-center">Bạn chưa có tài khoản?</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login End-->
+
+<style>
+    .login-container {
+        margin: auto; /* Đặt margin là auto để căn giữa */
+        max-width: 400px; /* Đặt kích thước tối đa của card */
+        padding: 20px;
+    }
+
+    
+
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>

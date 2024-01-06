@@ -1,0 +1,111 @@
+﻿@model doan.Areas.Admin.Models.AdminMenu
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Sửa menu admin</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <form asp-action="Edit">
+                                <input type="hidden" asp-for="AdminMenuID" />
+                                <div asp-validation-summary="All"></div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="ItemName">Tên menu</label>
+                                        <input type="text" class="form-control mb-3" asp-for="ItemName" placeholder="Nhập tên menu">
+                                        <span asp-validation-for="ItemName" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="AreaName">AreaName ( Admin )</label>
+                                        <input type="text" class="form-control mb-3" asp-for="AreaName" placeholder="Nhập liên kết">
+                                        <span asp-validation-for="AreaName" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="ControllerName">Liên kết</label>
+                                        <input type="text" class="form-control mb-3" asp-for="ControllerName" placeholder="Nhập liên kết">
+                                        <span asp-validation-for="ControllerName" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="ActionName">ActionName ( Index )</label>
+                                        <input type="text" class="form-control mb-3" asp-for="ActionName" placeholder="Nhập liên kết">
+                                        <span asp-validation-for="ActionName" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="ItemLevel">Cấp menu</label>
+                                        <select asp-for="ItemLevel" class="form-select" id="Levels">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-froup col-md-3">
+                                        <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                                        <label asp-for="ParentLevel">Menu cha</label>
+                                        <select asp-for="ParentLevel"
+                                                class="form-control"
+                                                asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="ItemOrder">Thứ tự menu</label>
+                                        <input type="text" class="form-control mb-3" asp-for="ItemOrder" placeholder="Nhập thứ tự menu">
+                                        <span asp-validation-for="ItemOrder" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label asp-for="Icon">Icon ( nav-icon far fa-circle )</label>
+                                        <input type="text" class="form-control mb-3" asp-for="Icon" placeholder="Nhập icon">
+                                        <span asp-validation-for="Icon" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group mt-1 mb-1">
+                                        <label>
+                                            @Html.CheckBox("IsActive", true)
+                                            Hiển thị
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form">
+                                    <div class="form-group">
+                                        <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                                        <a href="javascript:history.back()" class="btn btn-info">Quay lại</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

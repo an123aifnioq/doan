@@ -1,0 +1,432 @@
+﻿@model Product
+@{
+    List<ProductCategory> productCategories = ViewBag.productCategories;
+}
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ProductReview> productReview = ViewBag.productReview;
+    List<Product> productRelated = ViewBag.productRelated;
+}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+
+                    <!-- Hiển thị breadcrumb cho từng danh mục sản phẩm -->
+                    @foreach (var category in productCategories)
+                    {
+                        if (category.CategoryProductID == Model.CategoryProductID)
+                        {
+                            <a href="#"><i class="fa fa-cart"></i> @category.Title</a>
+                            break; // Dừng vòng lặp khi tìm được danh mục tương ứng
+                        }
+                    }
+
+                    <span>@Model.Title</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__left product__thumb nice-scroll">
+                        <a class="pt active" href="#product-1">
+                            <img src="@Model.Image" alt="Product Image">
+                        </a>
+                        <a class="pt" href="#product-2">
+                            <img src="@Model.Image" alt="Product Image">
+                        </a>
+                        <a class="pt" href="#product-3">
+                            <img src="@Model.Image" alt="Product Image">
+                        </a>
+                        <a class="pt" href="#product-4">
+                            <img src="@Model.Image" alt="Product Image">
+                        </a>
+                    </div>
+                    <div class="product__details__slider__content">
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-hash="product-1" class="product__big__img" src="@Model.Image" alt="">
+                            <img data-hash="product-2" class="product__big__img" src="@Model.Image" alt="">
+                            <img data-hash="product-3" class="product__big__img" src="@Model.Image" alt="">
+                            <img data-hash="product-4" class="product__big__img" src="@Model.Image" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="product__details__text">
+                    <h3>@Model.Title</h3>
+                    <div class="rating">
+                        @for (int i = 0; i < @Model.Rating; i++)
+                        {
+                            <i class="fa fa-star"></i>
+                        }
+                        <span>( @productReview.Count() đánh giá )</span>
+                    </div>
+                    <div class="product__details__price">
+                        @if (Model.PriceSale == 0)
+                        {
+                            <i class="new-price">@Model.Price VNĐ</i>
+                        }
+                        else
+                        {
+                            <i class="new-price">@Model.PriceSale VNĐ</i>
+                            <span class="old-price">$@Model.Price VNĐ</span>
+                        }
+                    </div>
+                    <p>
+                        @Model.Description
+                    </p>
+                    <div class="product__details__button">
+                        <div class="quantity">
+                            <span>Số lượng:</span>
+                            <div class="pro-qty">
+                                <input type="text" value="1">
+                            </div>
+                        </div>
+                        <a class="cart-btn" asp-route="addcart" asp-route-productid="@Model.ProductID"><span class="icon_bag_alt"></span>Thêm vào giỏ</a>
+
+                        <ul>
+                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__details__widget">
+                        <ul>                            
+                            <li>
+                                <span>Màu sản phẩm:</span>
+                                <div class="color__checkbox">
+                                    <label for="red">
+                                        <input type="radio" name="color__radio" id="red" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label for="black">
+                                        <input type="radio" name="color__radio" id="black">
+                                        <span class="checkmark black-bg"></span>
+                                    </label>
+                                    <label for="grey">
+                                        <input type="radio" name="color__radio" id="grey">
+                                        <span class="checkmark grey-bg"></span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Size:</span>
+                                <div class="size__btn">
+                                    <label for="xs-btn" class="active">
+                                        <input type="radio" id="xs-btn">
+                                        xs
+                                    </label>
+                                    <label for="s-btn">
+                                        <input type="radio" id="s-btn">
+                                        s
+                                    </label>
+                                    <label for="m-btn">
+                                        <input type="radio" id="m-btn">
+                                        m
+                                    </label>
+                                    <label for="l-btn">
+                                        <input type="radio" id="l-btn">
+                                        l
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Khuyễn mãi:</span>
+                                <p>Miễn phí vận chuyển</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Miêu tả</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Chính sách</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Đánh giá ( @productReview.Count() )</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <h6>Miêu tả</h6>
+                            <p>
+                                @Model.Detail
+                            </p>
+                        </div>
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <div class="product-shipping-body">
+                            <h6 class="title">Vận chuyển</h6>
+                            <p class="short-desc mb-4">
+                                    Mặt hàng sẽ được vận chuyển từ Trung Quốc.
+                                    Vì vậy cần 15-20 ngày để giao. Sản phẩm của chúng tôi tốt với giá 
+                                    cả hợp lý và chúng tôi tin rằng bạn sẽ xứng đáng. Vì vậy hãy kiên 
+                                    nhẫn chờ đợi nhé! Cảm ơn. Mọi thắc mắc xin vui lòng liên hệ với chúng 
+                                    tôi và chúng tôi hứa sẽ làm việc chăm chỉ để giúp bạn giải quyết vấn đề
+                            </p>
+                            <h6 class="title">Hoàn trả đơn</h6>
+                            <p class="short-desc mb-4">
+                                    Nếu bạn không cần lo lắng về món hàng đó, 
+                                    bạn có thể liên hệ với chúng tôi sau đó chúng tôi sẽ giúp bạn giải quyết vấn đề, 
+                                    vì vậy vui lòng đóng yêu cầu trả lại! 
+                                    Cảm ơn
+                            </p>
+                            <h6 class="title">Độ đảm bảo</h6>
+                            <p class="short-desc mb-0">
+                                    Nếu đó là câu hỏi về chất lượng, 
+                                    chúng tôi sẽ gửi lại hoặc hoàn tiền cho Bạn; 
+                                    Nếu bạn nhận được các mặt hàng bị hư hỏng hoặc sai, 
+                                    vui lòng liên hệ với chúng tôi và đính kèm một số mặt hàng hình ảnh 
+                                    về sản phẩm, chúng tôi sẽ trao đổi một mặt hàng mới chính xác cho bạn sau 
+                                    khi xác nhận.
+                            </p>
+                        </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <h6>Đánh giá</h6>                          
+                            @foreach (var item in productReview)
+                            {
+                                <div class="blog__comment__item">
+                                    <div class="blog__comment__item__pic">
+                                        <img src="@item.Account?.Image" alt="">
+                                    </div>
+                                    <div class="blog__comment__item__text">
+                                        <h6>@item.Name</h6>
+                                        <div class="rating">
+                                            @for (int i = 1; i <= item.Star; i++)
+                                            {
+                                                <i class="fa fa-star"></i>
+                                            }
+                                        </div>
+                                        <p>@item.Detail</p>
+                                        <ul>
+                                            <li><i class="fa fa-clock-o"></i> @item.CreatedDate.Value.ToString("dd/MM/yyyy")</li>                                         
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                            <div class="feedback-area pt-5">
+                                <h2 class="heading mb-1">Thêm đánh giá của bạn</h2>
+                                <p>Chú thích: Đã đăng nhập thì chỉ cần nhập nội dung và chọn số sao*</p>
+                                <form asp-action="Details" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-field mb-2">
+                                                <input id="c_name" type="text" name="name" placeholder="Tên của bạn*" class="form-control">
+                                            </div>
+                                            <div class="form-field mb-2">
+                                                <input id="c_phone" type="text" name="phone" placeholder="Số điện thoại*" class="form-control">
+                                            </div>
+                                            <div class="form-field mb-2">
+                                                <input id="c_email" type="text" name="email" placeholder="Email*" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-field mb-2">
+                                                <!-- Thêm hộp đánh giá sao của bạn ở đây -->
+                                                <div class="rating-box" id="ratingBox">
+                                                    <span>Số sao bạn cho:</span>
+                                                    <ul class="ps-4">
+                                                        <li data-rating="1"><i class="fa fa-star"></i></li>
+                                                        <li data-rating="2"><i class="fa fa-star"></i></li>
+                                                        <li data-rating="3"><i class="fa fa-star"></i></li>
+                                                        <li data-rating="4"><i class="fa fa-star"></i></li>
+                                                        <li data-rating="5"><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="form-field mb-2">
+                                                <textarea id="c_message" name="message" placeholder="Nhập nội dung" class="form-control"></textarea>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="button-wrap mt-8">
+                                        <button id="c_submit" type="submit" value="submit" class="site-btn" name="submit">Gửi đánh giá</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="related__title">
+                    <h5>Sản phẩm liên quan</h5>
+                </div>
+            </div> 
+            @foreach (var item in productRelated)
+            {                        
+                string sUrl = $"/product/{item.Alias}-{item.ProductID}.html";
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">                  
+                        <div class="product__item__pic set-bg" data-setbg="@item.Image">
+                            @if (item.IsNew)
+                            {
+                                <div class="label new">Mới</div>
+                            }
+                            @if (item.IsBestSeller)
+                            {
+                                <div class="label bestseller">Bán chạy</div>
+                            }
+                            <ul class="product__hover">
+                                <li><a href="@item.Image" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a asp-route="addcart" asp-route-productid="@item.ProductID"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="@sUrl">@item.Title</a></h6>
+                            <div class="rating">
+                                @for (int i = 0; i < @item.Rating; i++)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                            </div>
+                            <div class="product__price">
+                                @if (item.PriceSale == 0)
+                                {
+                                <i class="new-price">@item.Price VNĐ</i>
+                                }
+                                else
+                                {
+                                <i class="new-price">@item.PriceSale VNĐ</i>
+                                <span class="old-price">@item.Price VNĐ</span>
+                                }
+                            </div>
+                        </div>                                        
+                    </div>
+                </div>
+            }           
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+
+
+<style>
+    .rating{
+        color: gold;
+    }
+    .blog__details__item {
+        max-width: 100%; /* Thay đổi giá trị max-width tùy ý */
+        margin: auto;
+    }
+
+        .blog__details__item img {
+            width: 100%; /* Ảnh sẽ có chiều rộng là 100% của phần tử chứa */
+            height: auto; /* Chiều cao sẽ tự động tính theo tỉ lệ khung hình ban đầu */
+        }
+
+    .blog__comment__item__text {
+        flex-grow: 1;
+        margin-left: 15px;
+    }
+    .rating-box ul {
+        list-style: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .rating-box li {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .rating-box i {
+        color: #ccc;
+        font-size: 24px;
+    }
+
+        .rating-box i.active,
+        .rating-box i:hover {
+            color: gold;
+        }
+
+    /* Thêm CSS để tùy chỉnh màu cho nhãn "Bán chạy" */
+    .label.bestseller {
+        background-color: #ca1515;
+        color: #ffffff;
+    }
+</style>
+
+
+
+<input type="hidden" id="product_id" value="@Model.ProductID" />
+@section Scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ratingBox = document.getElementById("ratingBox");
+            const stars = ratingBox.querySelectorAll("li");
+
+            stars.forEach((star) => {
+                star.addEventListener("click", () => {
+                    const rating = star.getAttribute("data-rating");
+                    resetStars();
+                    highlightStars(rating);
+                });
+            });
+
+            function resetStars() {
+                stars.forEach((star) => {
+                    star.querySelector("i").classList.remove("active");
+                });
+            }
+
+            function highlightStars(rating) {
+                for (let i = 0; i < rating; i++) {
+                    stars[i].querySelector("i").classList.add("active");
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            $("#c_submit").click(function () {
+                _id = $("#product_id").val();
+                _name = $("#c_name").val();
+                _phone = $("#c_phone").val();
+                _email = $("#c_email").val();
+                _message = $("#c_message").val();
+                $.ajax({
+                    url: "/Product/Create",
+                    type: "POST",
+                    data: { id: _id, name: _name, phone: _phone, email: _email, message: _message },
+                    success: function (result) {
+                        if (result != null) {
+                            $("#c_name").val("");
+                            $("#c_phone").val("");
+                            $("#c_email").val("");
+                            $("#c_message").val("");
+                            _date = Untils.getCurrentDate();
+                            toastr.success('Gửi thành công');
+                            _sHtml = '<li> <ul class="user-info"> <li class="user-avatar"> <img src="/assets/images/testimonial/user/1.png" alt="User Image"> </li> <li class="user-comment"> <div class="rating-box"> <ul> <li><i class="pe-7s-star"></i></li> <li><i class="pe-7s-star"></i></li> <li><i class="pe-7s-star"></i></li> <li><i class="pe-7s-star"></i></li> <li><i class="pe-7s-star"></i></li> </ul> </div> <div class="meta"> <span><strong>' + _name + ' -</strong> ' + _date + '</span> </div> <p class="short-desc mb-0">' + _message + '</p> </li> </ul> </li>';
+                            $("#product_comment").append(_sHtml);
+                            $(".review_count").text(parseInt($(".review_count").html()) + 1);
+                        }
+                        else {
+                            toastr.success('Gửi không thành công');
+                        }
+                    }
+                })
+            });
+        })       
+    </script>
+}

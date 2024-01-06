@@ -1,0 +1,31 @@
+﻿@model doan.Models.BlogComment
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <main id="main" class="main">
+                        <div class="pagetitle">
+                            <h2>Xác nhận xóa bình luận</h2>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="CommentID">CommentID</label>
+                                <input type="text" class="form-control mb-3" asp-for="CommentID" disabled />
+                            </div>
+
+                        </div>
+                        <form asp-action="Delete">
+                            <input type="hidden" asp-for="CommentID" />
+                            <input type="submit" value="Delete" class="btn btn-danger" /> |
+                            <a href="javascript:history.back()" class="btn btn-info">Quay lại</a>
+                        </form>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

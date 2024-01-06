@@ -1,0 +1,85 @@
+﻿@*@model IEnumerable<Blog>*@
+
+@model IPagedList<Blog>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+
+@{
+    ViewData["Title"] = "Blog list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<BlogComment> listComment = ViewBag.blogComment;
+}
+
+<style>
+    .title {
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* số dòng hiển thị */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .short-desc {
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* số dòng hiển thị */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <span>Bài viết</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Blog Section Begin -->
+<section class="blog spad">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                var blogId = item.BlogID;
+                var commentCount = listComment.Where(i => i.BlogID == blogId);
+                string sUrl = $"/blog/{item.Alias}-{item.BlogID}.html";
+                <div class="col-lg-4 col-md-4 col-sm-6 pt-6">
+                    <div class="blog-item">
+                        <div class="blog__item__pic set-bg" data-setbg="@item.Image"></div>
+                        <div class="blog__item__text">
+                            <h6><a href="@sUrl">@item.Title</a></h6>
+                            <ul>
+                                <li>by <span>@item.AccountID</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }            
+            <div class="col-lg-12">
+                <div class="pagination-area pt-10">
+                    <nav aria-label="Page navigation example">
+                        @Html.PagedListPager(Model, page => Url.Action("index", new { page = page }), new PagedListRenderOptions()
+                        {
+                        ActiveLiElementClass = "active",
+                        PageClasses = new[]{ "page-link"},
+                        LiElementClasses=new[] { "page-item" },
+                        UlElementClasses = new[] { "pagination", "justify-content-center"},                       
+                        })                        
+                    </nav>
+                </div>
+            </div>            
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->

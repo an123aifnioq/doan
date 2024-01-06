@@ -1,0 +1,90 @@
+﻿
+@using doan.Utilities;
+@model IList<Menu>
+
+
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-4 col-lg-2">
+                <div class="header__logo">
+                    <a href="index.html"><img src="~/img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="auto">
+                <nav class="header__menu">
+                    <ul>
+                        @foreach (var menu in Model.Where(m => m.Levels == 1).OrderBy(n => n.MenuOrder))
+                        {
+                            var Pid = menu.MenuID;
+
+                            var Smenu = Model.Where(p => p.ParentID == Pid).OrderBy(p => p.MenuOrder).ToList();
+                            <li>
+                                @if (Smenu.Count == 0)
+                                {
+                                    <a href="/@menu.Alias">@menu.Title</a>
+                                }
+                                else
+                                {
+                                    <a href="#">@menu.Title</a>
+                                    <ul class="dropdown">
+                                        <li>
+                                            @foreach (var smn in Smenu)
+                                            {
+                                                <a href="/@smn.Alias" class="dropdown-item">@smn.Title</a>
+                                            }
+                                        </li>
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div> 
+            <div class="col-lg-4">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div>
+                                <span>Xin chào, @User.Identity.Name!</span> |
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("1") || User.IsInRole("3")))
+                                {
+                                    <a href="/Admin">Trang quản trị</a>
+                                }
+                                <a href="/Account/Logout">Đăng xuất</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <a href="/Account/Login">Đăng nhập</a>
+                                <a href="/Account/Register">Đăng ký</a>
+                            </div>
+                        }              
+                    </div>                   
+                </div>
+            </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End -->
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    
+    <div class="offcanvas__logo">
+        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+    </div>
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__auth">
+        <a href="/Account/Login">Đăng nhập</a>
+        <a href="/Account/Register">Đăng kí</a>
+    </div>
+</div>
+<!-- Offcanvas Menu End -->

@@ -1,0 +1,181 @@
+﻿@model Blog
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<BlogComment> blogComment = ViewBag.blogComment;
+}
+<style>
+    /* Thêm CSS mới để xác định kích thước của ảnh trong phần "Bài viết liên quan" */
+    .blog__details__item {
+        max-width: 50%; /* Điều này áp dụng cho phần tử chứa ảnh (div.blog__feature__item__pic) */
+    }
+
+        .blog__details__item img {
+            width: 100%; /* Ảnh sẽ có chiều rộng là 100% của phần tử chứa */
+            height: auto; /* Chiều cao sẽ tự động tính theo tỉ lệ khung hình ban đầu */
+        }
+
+    .blog__comment__item {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .blog__comment__item__pic {
+        margin-right: 20px;
+    }
+
+    .blog__comment__item__text {
+        flex-grow: 1;
+    }
+
+    .blog__comment__item--reply {
+        margin-left: 30px; /* Thêm khoảng cách cho trả lời bình luận */
+    }
+
+</style>
+
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <a href="/Blog/Index"><i class="fa fa-cart"></i> Bài viết</a>
+                    <span>@Model.Title</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <div class="blog__details__content">
+                    <div class="blog__details__item">
+                        <img src="@Model.Image" alt="">
+                        <div class="blog__details__item__title">
+                            <span class="tip">@Model.Category.Title</span>
+                            <h4>@Model.Title</h4>
+                            <ul>
+                                <li>by <span>Admin</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blog__details__desc">
+                        <p>@Model.Description</p>
+                        <p>@Model.Detail</p>
+                    </div>
+                </div>
+                <div class="blog__details__comment">
+                    <h5>@blogComment.Count() Bình Luận</h5>
+                    @foreach (var item in blogComment)
+                    {
+                        <div class="blog__comment__item">
+                            <div class="blog__comment__item__pic">
+                                <img src="@item.Account?.Image" alt="">
+                            </div>
+                            <div class="blog__comment__item__text">
+                                <h6>@item.Name</h6>
+                                <p>@item.Detail</p>
+                                <ul>
+                                    <li><i class="fa fa-clock-o"></i> @item.CreatedDate.Value.ToString("dd/MM/yyyy")</li>
+                                    @*
+                                    <li>
+                                        <a class="btn btn-link reply-button" href="javascript:void(0)">
+                                            <i class="fa fa-reply me-2"> Trả lời</i>
+                                        </a>
+                                    </li>
+                                    *@
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>              
+                <div class="feedback-area pt-5">
+                    <h2 class="heading mb-1">Thêm bình luận của bạn</h2>
+                    <p>Chú thích: Đã đăng nhập thì chỉ cần nhập nội dung*</p>
+                    <form>
+                        <div class="group-input">
+                            <div class="form-field me-md-6 mb-6 mb-md-2">
+                                <input id="c_name" type="text" name="name" placeholder="Tên của bạn*" class="form-control">
+                            </div>
+                            <div class="form-field me-md-6 mb-6 mb-md-2">
+                                <input id="c_phone" type="text" name="phone" placeholder="Số điện thoại*" class="form-control">
+                            </div>
+                            <div class="form-field me-md-6 mb-6 mb-md-2">
+                                <input id="c_email" type="text" name="email" placeholder="Email*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-field me-md-6 mb-6 mb-md-2">
+                            <textarea id="c_message" name="message" placeholder="Nhập nội dung" class="form-control"></textarea>
+                        </div>
+                        <div class="button-wrap mt-8">
+                            <button id="c_submit" type="submit" value="submit" class="site-btn" name="submit">Gửi</button>
+                        </div>
+                    </form>
+                </div>                
+            </div>
+            @await Component.InvokeAsync("RecentBlog")
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+<input type="hidden" id="blog_id" value="@Model.BlogID" />
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#c_submit").click(function () {
+                _id = $("#blog_id").val();
+                _name = $("#c_name").val();
+                _phone = $("#c_phone").val();
+                _email = $("#c_email").val();
+                _message = $("#c_message").val();
+
+                $.post("/Blog/Create", { id: _id, name: _name, phone: _phone, email: _email, message: _message })
+                    .done(function (result) {
+                        if (result != null) {
+                            $("#c_name").val("");
+                            $("#c_phone").val("");
+                            $("#c_email").val("");
+                            $("#c_message").val("");
+                            _date = Untils.getCurrentDate();
+                            toastr.success('Gửi thành công');
+                            _sHtml = '<div class="blog__details__comment"> <div class="blog__comment__item__pic"> <img src="' + _image + '" alt=""> </div> <div class="blog__comment__item__text"> <h6>' + _name + '</h6> <p>' + _message + '</p> <ul> <li><i class="fa fa-clock-o"></i> ' + _date + '</li> </ul> </div> </div>';
+                            $("#blog__details__comment").append(_sHtml);
+                        } else {
+                            toastr.success('Gửi không thành công');
+                        }
+                    });
+            });
+
+        })
+    </script>
+}
+
+<style>
+    .blog__details__item {
+        max-width: 100%; /* Thay đổi giá trị max-width tùy ý */
+        margin: auto;
+    }
+
+    .blog__details__item img {
+        width: 100%; /* Ảnh sẽ có chiều rộng là 100% của phần tử chứa */
+        height: auto; /* Chiều cao sẽ tự động tính theo tỉ lệ khung hình ban đầu */
+    }
+
+    .blog__comment__item__text {
+        flex-grow: 1;
+        margin-left: 15px;
+    }
+
+    .reply-button {
+        color: red; /* Đặt màu đỏ cho nút Trả lời */
+    }
+</style>

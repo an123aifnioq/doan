@@ -1,0 +1,66 @@
+﻿@model IEnumerable<doan.Models.OrderDetail>
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <a href="/Account/Index"><i class="fa fa-cart"></i> Tài khoản</a>
+                    <a href="/Order/Index"><i class="fa fa-cart"></i> Đơn hàng gần đây</a>
+                    <span>Chi tiết đơn hàng</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<section class="order-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="my-account">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 col-sm-12">
+                            <div class="page-title text-center">
+                                <h2 class="mb-4">Chi tiết đơn hàng</h2>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover cart_summary">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">ID</th>
+                                            <th class="text-center">Ảnh đại diện</th>
+                                            <th class="text-center">Tên sản phẩm</th>
+                                            <th class="text-center">Giá bán</th>
+                                            <th class="text-center">Số lượng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@item.Product?.ProductID</td>
+                                                <td class="text-center">
+                                                    <img style="max-width: 40px;height: auto;" src="@item.Product?.Image" />
+                                                </td>
+                                                <td class="text-center">@item.Product?.Title</td>
+                                                <td class="text-center">@item.Price VNĐ</td>
+                                                <td class="text-center">@item.Quantity</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mt-4">
+                                <a href="/Order/Index" class="btn btn-primary">Quay lại đơn hàng gần đây</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

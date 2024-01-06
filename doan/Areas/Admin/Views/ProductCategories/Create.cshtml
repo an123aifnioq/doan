@@ -1,0 +1,95 @@
+﻿@model doan.Models.ProductCategory
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Thêm mới danh mục sản phẩm</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                        <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý danh mục sản phẩm</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <form asp-action="Create">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Title">Tên danh mục</label>
+                                        <input type="text" class="form-control mb-3" asp-for="Title" placeholder="Nhập tên danh mục">
+                                        <span asp-validation-for="Title" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Alias">Liên kết</label>
+                                        <input type="text" class="form-control mb-3" asp-for="Alias" placeholder="Nhập liên kết">
+                                        <span asp-validation-for="Alias" class=" alert-danger"></span>
+                                    </div>
+                                </div>                               
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Icon" class="control-label">Ảnh đại diện danh mục sản phẩm</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-success" onclick="openDialog()">Chọn ảnh</button>
+                                        </div>
+                                        <!-- /btn-group -->
+                                        <input type="text" class="form-control" id="file_input" asp-for="Icon" aria-describedby="button-addon2">
+                                    </div>
+                                    <span asp-validation-for="Icon" class="text-danger"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label asp-for="Position">Vị trí danh mục</label>
+                                        <input type="text" class="form-control mb-3" asp-for="Position" placeholder="Nhập vị trí danh mục">
+                                        <span asp-validation-for="Position" class=" alert-danger"></span>
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                <label asp-for="SeoTitle" class="control-label"></label>
+                                <input asp-for="SeoTitle" class="form-control" />
+                                <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label asp-for="SeoDescription" class="control-label"></label>
+                                <input asp-for="SeoDescription" class="form-control" />
+                                <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label asp-for="SeoKeywords" class="control-label"></label>
+                                <input asp-for="SeoKeywords" class="form-control" />
+                                <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                                </div>*@
+                                <div class="form-group">
+                                    <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                                    <a href="javascript:history.back()" class="btn btn-info">Quay lại</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@{
+    var summerNote = new doan.Areas.Admin.Models.SummerNote("#Detail");
+    <partial name="_SummerNote" model="summerNote" />
+}

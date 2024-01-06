@@ -1,0 +1,81 @@
+﻿@model IEnumerable<doan.Models.Order>
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/Home/Index"><i class="fa fa-home"></i> Trang chủ</a>
+                    <a href="/Account/Index"><i class="fa fa-cart"></i> Tài khoản</a>
+                    <span>Đơn hàng gần đây</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<section class="order spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="my-account">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 col-sm-12">
+                            <div class="page-title text-center">
+                                <h2 class="mb-4">Đơn hàng gần đây</h2>
+                            </div>
+                            <table class="table table-bordered table-striped cart_summary">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th class="text-center">Mã đơn</th>
+                                        <th class="text-center">Khách hàng</th>
+                                        <th class="text-center">Ngày đặt</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Kiểu thanh toán</th>
+                                        <th class="text-center">Giá trị đơn</th>
+                                        <th class="text-center">Địa chỉ</th>
+                                        <th class="text-center">Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="tr_@item.OrderID">
+                                            <th class="text-center">@(i++)</th>
+                                            <td class="text-center">@item.Code</td>
+                                            <td class="text-center">@item.CustomerName</td>
+                                            <td class="text-center">@item.CreatedDate</td>
+                                            <td class="text-center">@item.OrderStatus?.Name</td>
+                                            <td class="text-center">@item.PaymentStatus?.Name</td>
+                                            <td class="text-center">@item.TotalAmount VNĐ</td>
+                                            <td class="text-center">@item.Address</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-info btn-sm" href="@Url.Action("OrderDetail", "Order", new { id = item.OrderID })">Chi tiết</a>
+                                                @if (item.OrderStatusID == 6)
+                                                {
+                                                    <a class="btn btn-danger btn-sm btn-delete" href="@Url.Action("CancelOrder", "Order", new { id = item.OrderID })">
+                                                        Hủy đơn
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted"></span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

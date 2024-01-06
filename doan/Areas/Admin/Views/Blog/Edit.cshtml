@@ -1,0 +1,90 @@
+﻿@using doan.Utilities;
+@model doan.Models.Blog
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Chỉnh sửa bài viết</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                        <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý bài viết</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <form asp-action="Edit">
+                                <input type="hidden" asp-for="BlogID" />
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Title">Tiêu đề</label>
+                                    <input type="text" class="form-control mb-3" asp-for="Title" placeholder="Nhập tiêu đề bài viết" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Alias">Liên kết</label>
+                                    <input type="text" class="form-control mb-3" asp-for="Alias" placeholder="Nhập liên kết" />
+                                    <span asp-validation-for="Alias" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CategoryID" class="control-label">Danh mục bài viết</label>
+                                    <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID">
+                                        <option value="0" selected>--[Chọn danh mục]--</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description">Mô tả</label>
+                                    <input type="text" class="form-control mb-3" asp-for="Description" placeholder="Nhập mô tả" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Image" class="control-label">Ảnh bài viết</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-success" onclick="openDialog()">Chọn ảnh</button>
+                                        </div>
+                                        <!-- /btn-group -->
+                                        <input type="text" class="form-control" id="file_input" asp-for="Image" aria-describedby="button-addon2">
+                                    </div>
+                                    <span asp-validation-for="Image" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Detail" class="control-label">Chi tiết bài viết</label>
+                                    <textarea asp-for="Detail" class="form-control"></textarea>
+                                </div>
+
+
+                                <div class="form-group mt-1 mb-1">
+                                    <label>
+                                        @Html.CheckBox("IsActive", true)
+                                        Hiển thị
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                                    <a href="javascript:history.back()" class="btn btn-info">Quay lại</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@{
+    var summerNote = new doan.Areas.Admin.Models.SummerNote("#Detail");
+    <partial name="_SummerNote" model="summerNote" />
+}

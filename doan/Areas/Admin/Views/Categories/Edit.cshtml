@@ -1,0 +1,86 @@
+﻿@model doan.Models.Category
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/admin/lib/jqueryui/themes/themes/base/theme.css" rel="stylesheet" />
+<link href="~/admin/lib/jqueryui/themes/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/admin/lib/elFinder/css/elfinder.full.css" rel="stylesheet" />
+<link href="~/admin/lib/elFinder/css/theme.css" rel="stylesheet" />
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Sửa danh mục</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                        <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý danh mục</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <form method="post" asp-action="Edit">
+                                <input type="hidden" asp-for="CategoryID" />
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label"></label>
+                                    <input asp-for="Title" class="form-control"/>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Alias" class="control-label"></label>
+                                    <input asp-for="Alias" class="form-control" />
+                                    <span asp-validation-for="Alias" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description" class="control-label"></label>
+                                    <input asp-for="Description" class="form-control" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Position" class="control-label"></label>
+                                    <input asp-for="Position" class="form-control" />
+                                    <span asp-validation-for="Position" class="text-danger"></span>
+                                </div>
+                                @*<div class="form-group">
+                                    <label asp-for="SeoTitle" class="control-label"></label>
+                                    <input asp-for="SeoTitle" class="form-control" />
+                                    <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SeoDescription" class="control-label"></label>
+                                    <input asp-for="SeoDescription" class="form-control" />
+                                    <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SeoKeywords" class="control-label"></label>
+                                    <input asp-for="SeoKeywords" class="form-control" />
+                                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                                </div>*@
+                                <div class="form">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Lưu</button>
+                                        <a asp-controller="Categories" asp-action="Index" class="btn btn-lg btn-warning p-2">Quay lại</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

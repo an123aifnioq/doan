@@ -1,0 +1,86 @@
+﻿@model IPagedList<AdminMenu>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using doan.Areas.Admin.Models;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>
+                        Danh sách menu Admin
+                    </h1>
+                    <p>
+                        <a class="btn btn-success" href="@Url.Action("Create", "AdminMenus")">Thêm menu Admin</a>
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Quản lý menu admin</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1 text-center">STT</th>
+                                        <th class="col-1 text-center">Tiêu đề</th>
+                                        <th class="col-1 text-center">Liên kết</th>
+                                        <th class="col-1 text-center">Cấp</th>
+                                        <th class="col-1 text-center">Menu cha (ID)</th>
+                                        <th class="col-1 text-center">Thứ tự</th>
+                                        <th class="col-1 text-center">Ẩn/Hiện</th>
+                                        <th class="col-1 text-center">Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="tr_@item.AdminMenuID">
+                                            <th class="text-center">@(i++)</th>
+                                            <td class="text-center">@item.ItemName</td>
+                                            <td class="text-center">@item.ControllerName</td>
+                                            <td class="text-center">@item.ItemLevel</td>
+                                            <td class="text-center">@item.ParentLevel</td>
+                                            <td class="text-center">@item.ItemOrder</td>
+                                            <td class="text-center">@item.IsActive</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-success btn-sm" href="@Url.Action("Edit", "AdminMenus", new { id = item.AdminMenuID })">Sửa</a> |
+                                                <a class="btn btn-danger btn-sm btn-delete" href="@Url.Action("Delete", "AdminMenus", new { id = item.AdminMenuID })">Xóa</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @Html.PagedListPager(Model, page => Url.Action("index", new { page = page }), new PagedListRenderOptions()
+                            {
+                            ActiveLiElementClass = "active",
+                            PageClasses = new[]{ "page-link"},
+                            LiElementClasses=new[] { "page-item" },
+                            UlElementClasses = new[] { "pagination", "justify-content-center"},
+                            })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,50 @@
+﻿@model doan.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Chi tiết sản phẩm - @Model.Title</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/products">Quản lý sản phẩm</a></li>
+                        <li class="breadcrumb-item active">@Model.Title</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-fluid" src="@Model.Image" alt="@Model.Title">
+                        </div>
+                        <div class="col-md-8">
+                            <h2>@Model.Title</h2>
+                            <p><strong>Giá sản phẩm:</strong> @Model.Price VNĐ</p>
+                            <p><strong>Giá sale sản phẩm:</strong> @Model.PriceSale VNĐ</p>
+                            <p><strong>Số lượng kho:</strong> @Model.Quantity</p>
+                            <p><strong>Đánh giá:</strong> @Model.Rating sao</p>
+                            <p><strong>Mô tả:</strong> @Model.Description</p>
+                            <div class="mt-4">
+                                <a class="btn btn-success" href="@Url.Action("Index", "Products", new { id = Model.ProductID })">Quay lại</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
